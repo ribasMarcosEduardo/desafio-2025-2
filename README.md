@@ -1,8 +1,12 @@
 # Desafio TI DEV UNOESC 2025/2
 CORRESPONDENTE AO EDITAL N. 21/UNOESC-R/2025
+
 Desafio Programador Fullstack Unoesc
+
 Este é o nosso desafio para a vaga de programador Fullstack na Unoesc. Serão testadas as habilidades e qualidade de código ao transformar requisitos limitados em uma aplicação web.
+
 *FAÇA O FORK DESTE REPOSITÓRIO E IMPLEMENTE O DESAFIO. MANTENHA PÚBLICO, POIS QUEREMOS ACOMPANHAR SEUS COMMITS*
+
 Ao concluir o desafio, lembre de enviar um email para recrutamentorh.jba@unoesc.edu.br, ti.coord@unoesc.edu.br e ti.dev@unoesc.edu.br, com seu repositório. Lembre de incluir a documentação para que possamos rodar sua aplicação.
 
 ## TECNOLOGIAS OBRIGATÓRIAS
