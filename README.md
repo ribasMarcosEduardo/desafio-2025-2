@@ -24,7 +24,7 @@ O código será avaliado de acordo com os seguinte critérios:
 * Completude das funcionalidades;
 * Qualidade de código (design pattern, manutenibilidade, clareza);
 * Boas práticas de UI (Interface com o Usuário);
-* **Sentido e coerência nas respostas aos questionamentos na entrevista de apresentação do desafio realizada pelo candidato.
+* **Sentido e coerência nas respostas aos questionamentos na entrevista de apresentação do desafio realizada pelo candidato.**
  
 **OBS: Plágios tendem a ser desclassificados. Atenção com o uso excessivo de IA.**
 
@@ -36,6 +36,7 @@ Você terá que desenvolver a clássica aplicação para uma locadora de filmes 
 Para o cadastro de Filmes você deverá utilizar algum endpoint (a sua escolha) disponível na [API da plataforma The Movie Database](https://developer.themoviedb.org/reference/intro/getting-started), para trazer dados de um filme aleatório. **Esta API exige chave de autenticação**, a documentação para criar/utilizar a mesma, bem como exemplos de aplicação encontram-se [AQUI](https://developer.themoviedb.org/docs/getting-started).
 
 Para o cadastro de Locação você precisará utilizar a API [QRcode Generator](https://api.apgy.in/qr/documentation.html). Com ela você passará parâmetros e receberá uma imagem do QRcode, que deverá ser convertida em Base64 e armazenada em conjunto com o registro de Locação que estiver criando.
+
 Também para Locação, você poderá selecionar até 3 filmes do seu catálogo, verificar se todos estes filmes selecionados possuem exemplares disponíveis e informar os dados do locador (não precisa necessariamente utilizar uma entidade "Pessoa", podem ser apenas informações literais).
 
 Gestão de usuários e permissões não se faz necessário, mas proteger as páginas de sua aplicação com um usuário e senha sim. Dito isso, deve haver uma url pública de consulta na sua aplicação, onde ao passar um número de CPF, retorna se há alguma locação ativa com os dados (incluindo o QRcode).
@@ -63,6 +64,7 @@ Deverá possuir as seguintes informações [VINDAS DA API](https://developer.the
 * "lancamento" - Date (vindo da API)
 
 **OBS:** Lembrar de passar o token de autenticação gerado como um Header. Há exemplos em diversas linguagens na documentação.
+
 **OBS2:** Como a escolha do endpoint de filme ficou aberto, atenção com os parâmetros a serem enviados.
 
 **_Classe EXEMPLAR_**
@@ -108,5 +110,5 @@ Deverá possuir as seguintes informações [VINDAS DA API](https://api.apgy.in/q
 18. Deve existir um link NÃO PROTEGIDO para consultar se há **LOCACAO** PENDENTE para um **LOCACAO.cpf**.
 19. Todos os campos que necessitem de máscara, devem a ter implementada.
 
-**IMPORTANTE: Lembrando que a não completude de todos os pontos, não necessariamente é fator reprovatório, seu esforço será avaliado.
+**IMPORTANTE: Lembrando que a não completude de todos os pontos, não necessariamente é fator reprovatório, seu esforço será avaliado.**
 
