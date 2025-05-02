@@ -24,7 +24,9 @@ O código será avaliado de acordo com os seguinte critérios:
 * Completude das funcionalidades;
 * Qualidade de código (design pattern, manutenibilidade, clareza);
 * Boas práticas de UI (Interface com o Usuário);
-* **Sentido e coerência nas respostas aos questionamentos na entrevista de apresentação do desafio realizada pelo candidato. OBS: Plágios tendem a ser desclassificados. Atenção com o uso excessivo de IA.**
+* **Sentido e coerência nas respostas aos questionamentos na entrevista de apresentação do desafio realizada pelo candidato.
+ 
+**OBS: Plágios tendem a ser desclassificados. Atenção com o uso excessivo de IA.**
 
 **IMPORTANTE: Estamos buscando desenvolvedores que topam desafios, então mesmo não cumprindo todo os requisitos abaixo, seu esforço será avaliado.**
 
