@@ -2,6 +2,7 @@ package locadoraFilmes.application.model;
 
 
 import jakarta.persistence.*;
+import jdk.jshell.Snippet;
 import lombok.Data;
 
 import java.time.LocalDate;

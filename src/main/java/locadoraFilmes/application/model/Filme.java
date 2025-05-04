@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 public class Filme {
 
    @Id
@@ -25,7 +25,7 @@ public class Filme {
     @Column(nullable = false, length = 255)
     private String titulo;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 1000)
     private String resumo;
 
     @Column(nullable = false, length = 255)
