@@ -9,6 +9,17 @@
     <title>Cadastro de Filme</title>
 </head>
 <body>
+
+<div class="div-alert">
+    <div style=" text-align: center; line-height: 50px;" th:if="${Sucesso}" id="success-alert"  class="alert alert-success">
+        <p th:text="${Sucesso}"></p>
+    </div>
+    <div th:if="${FilmeDuplicado}" class="alert alert-danger">
+        <p th:text="${FilmeDuplicado}"></p>
+    </div>
+</div>
+
+
 <div class="container mt-5">
     <div class="div-borda">
         <h3 class="titulo">Cadastro de Filme:</h3>
@@ -67,6 +78,11 @@
         </form>
     </div>
 </div>
+
+<script>
+    setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

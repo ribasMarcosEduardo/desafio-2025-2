@@ -18,6 +18,7 @@ public class ExemplarController {
         model.addAttribute("exemplarDTO", exemplarDTO);
         return "cadastros/cadastroExemplar"; // http://localhost:8080/exemplar/cadastroExemplar
     }
+// Agr irei fazer alguns ajustes na tela de edição dos exemplares mas isso ficará apenas para dias 04/05/2025 09:00 AM
 
 
 

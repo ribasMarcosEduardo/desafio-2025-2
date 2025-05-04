@@ -36,10 +36,16 @@ public class FilmeController {
     public String salvarFilme(@ModelAttribute FilmeDTO filmeDTO, RedirectAttributes redirectAttributes){
         Filme filme = filmeDTO.mapearFilme();
         filmeService.salvarFilme(filme);
-        redirectAttributes.addFlashAttribute("mensagemSucesso", "Filme cadastrado com sucesso!");
+        redirectAttributes.addFlashAttribute("Sucesso", "Filme cadastrado com sucesso!");
         return "redirect:/filme/cadastroFilme";
     }
 
+    // Listagem de Filmes
+    @GetMapping("/listarFilmes")
+    public String listarFilmes(Model model) {
+        model.addAttribute("filmes", filmeService.listarFilmes());
+        return "cadastros/listarFilmes"; // http://localhost:8080/filme/listarFilmes
+    }
 
 
 }

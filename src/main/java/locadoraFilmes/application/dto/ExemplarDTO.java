@@ -12,4 +12,13 @@ public record ExemplarDTO(
         boolean ativo
 ) {
 
+    public Exemplar mapearExemplar() {
+        Exemplar exemplar = new Exemplar();
+        exemplar.setId(this.id);
+        exemplar.setFilme(this.filme_id);
+        exemplar.setDataCadastro(this.dataCadastro);
+        exemplar.setAtivo(this.ativo);
+        return exemplar;
+    }
+
 }
