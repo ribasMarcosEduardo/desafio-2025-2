@@ -41,6 +41,7 @@ public class FilmeService {
         }
 
     }
+
     public List<Object[]> listarFilmes() {
         return repository.findFilmesComExemplares();
     }

@@ -40,7 +40,10 @@
           <td th:text="${filme[0]}"></td>
           <td th:text="${filme[1]}"></td>
           <td th:text="${filme[2]}"></td>
-          <td><a th:href="@{https://www.youtube.com/watch?v=8Z09MK7mado}" class="btn btn-primary">Detalhes</a></td>
+          <td>
+            <a th:href="@{/exemplar/listarExemplares(tituloFilme=${filme[1]})}"
+            class="btn btn-primary">Visualizar exemplares</a>
+          </td>
         </tr>
         <tr th:if="${filmes.isEmpty()}">
           <td colspan="3" class="text-center">Nenhum filme com exemplares cadastrado</td>
