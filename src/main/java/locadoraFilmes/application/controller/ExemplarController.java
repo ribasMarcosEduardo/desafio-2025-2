@@ -50,6 +50,22 @@ public class ExemplarController {
         return "redirect:/exemplar/listarExemplares?tituloFilme=" + tituloFilme; // eu preciso arrumar esse suposto problema de cache relacionado a essa parte
     }
 
+    // Excluir Exemplar -- Botão
+    @PostMapping("/excluirExemplar/{id}")
+    public String excluirExemplar(@PathVariable int id, @RequestParam(required = false) String tituloFilme, RedirectAttributes redirectAttributes) {
+        exemplarService.excluirExemplar(id);
+        redirectAttributes.addFlashAttribute("Sucesso", "Exemplar excluído com sucesso!"); // Tenho q ajustar essa mensagem no front
+        return "redirect:/exemplar/listarExemplares?tituloFilme=" + tituloFilme;
+    }
+
+    // Alterar Status do Exemplar
+    @PostMapping("/alterarStatus/{id}")
+    public String alterarStatus(@PathVariable int id, @RequestParam(required = false) String tituloFilme, RedirectAttributes redirectAttributes) {
+        exemplarService.alterarStatus(id);
+        redirectAttributes.addFlashAttribute("Sucesso", "Exemplar excluído com sucesso!"); // Tenho q ajustar essa mensagem no front
+        return "redirect:/exemplar/listarExemplares?tituloFilme=" + tituloFilme;
+    }
+
 
 
 

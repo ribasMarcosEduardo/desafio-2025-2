@@ -20,4 +20,6 @@ public class FilmeValidator {
             throw new FilmeDuplicado("Já existe um filme com o mesmo nome");
         }
     }
+
+
 }
