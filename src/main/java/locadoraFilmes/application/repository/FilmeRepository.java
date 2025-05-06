@@ -13,9 +13,15 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
 
     Optional<Filme> findByTitulo(String titulo);
 
-    @Query("SELECT f.id, f.titulo, COUNT(e.id) " +
-            "FROM Filme f JOIN f.exemplares e " +
-            "WHERE f.ativo = true " +
-            "GROUP BY f.id, f.titulo")
-    List<Object[]> findFilmesComExemplares();
+    @Query("""
+    SELECT f.id, f.titulo,
+           SUM(CASE WHEN e.ativo = true THEN 1 ELSE 0 END)
+    FROM Filme f
+    LEFT JOIN f.exemplares e
+    WHERE f.ativo = true
+    GROUP BY f.id, f.titulo
+""")
+    List<Object[]> findFilmesComExemplaresAtivos();
+
+
 }

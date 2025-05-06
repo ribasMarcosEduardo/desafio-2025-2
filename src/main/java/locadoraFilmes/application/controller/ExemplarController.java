@@ -38,8 +38,7 @@ public class ExemplarController {
 
         model.addAttribute("exemplares", exemplares);
         model.addAttribute("tituloFiltrado", tituloFilme);
-        return "cadastros/listarExemplares";
-
+        return "listas/listarExemplares";
     }
 
     // Cadastro de um novo exemplar -- Botão

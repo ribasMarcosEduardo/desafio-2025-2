@@ -44,7 +44,7 @@ public class FilmeController {
     @GetMapping("/listarFilmes")
     public String listarFilmes(Model model) {
         model.addAttribute("filmes", filmeService.listarFilmes());
-        return "cadastros/listarFilmes"; // http://localhost:8080/filme/listarFilmes
+        return "listas/listarFilmes"; // http://localhost:8080/filme/listarFilmes
     }
 
 
