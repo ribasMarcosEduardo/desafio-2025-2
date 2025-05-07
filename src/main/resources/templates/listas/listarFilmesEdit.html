@@ -7,14 +7,14 @@
   <title>Listagem de Filmes</title>
   <style>
     .div-borda {
-        border: 1px solid #dee2e6;
-        border-radius: 0.25rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
     }
     .table-container {
-        max-height: 400px;
-        overflow-y: auto;
+      max-height: 400px;
+      overflow-y: auto;
     }
   </style>
 </head>
@@ -22,6 +22,13 @@
 
 <div class="container mt-5">
   <div class="div-borda">
+    <div th:if="${Sucesso}" class="alert alert-success" role="alert">
+      <span th:text="${Sucesso}"></span>
+    </div>
+    <div th:if="${Erro}" class="alert alert-danger" role="alert">
+      <span th:text="${Erro}"></span>
+    </div>
+
     <h3 style="text-align: center;">Edição de Filmes</h3>
     <button id="refreshFilmes" class="btn" style="background: none; font-size: 25px;">↻</button>
 
@@ -29,24 +36,37 @@
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Título</th>
-          <th scope="col">Exemplares</th>
-
+          <th>ID</th>
+          <th>Título</th>
+          <th>Lançamento</th>
+          <th>Pontuação</th>
+          <th>Ativo</th>
+          <th>Exemplares Ativos</th>
+          <th>Ações</th>
         </tr>
         </thead>
         <tbody id="filmesBody">
         <tr th:each="filme : ${filmes}">
           <td th:text="${filme[0]}"></td>
           <td th:text="${filme[1]}"></td>
-
+          <td th:text="${#dates.format(filme[2], 'dd/MM/yyyy')}"></td>
+          <td th:text="${filme[3]}"></td>
           <td>
-            <a th:href="@{/exemplar/listarExemplares(tituloFilme=${filme[1]})}"
-               class="btn btn-primary">Visualizar exemplares</a>
+            <span th:if="${filme[4]}" class="badge bg-success">Ativo</span>
+            <span th:unless="${filme[4]}" class="badge bg-danger">Inativo</span>
+          </td>
+          <td th:text="${filme[5]}"></td>
+          <td>
+            <form th:action="@{/filme/excluirFilmes/{id}(id=${filme.[0]})}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este filme?');">
+              <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+            </form>
+            <form th:action="@{/filme/alterarStatusFilmes/{id}(id=${filme[0]})}" method="post" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja alterar o status deste filme?');">
+              <button type="submit" class="btn btn-sm btn-warning">Alterar Status</button>
+            </form>
           </td>
         </tr>
         <tr th:if="${filmes.isEmpty()}">
-          <td colspan="3" class="text-center">Nenhum filme com exemplares cadastrado</td>
+          <td colspan="7" class="text-center">Nenhum filme encontrado</td>
         </tr>
         </tbody>
       </table>

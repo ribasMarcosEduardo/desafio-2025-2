@@ -9,6 +9,7 @@ import locadoraFilmes.application.repository.FilmeRepository;
 import locadoraFilmes.application.validator.FilmeValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +21,7 @@ public class FilmeService {
     private final FilmeRepository repository;
     private final FilmeValidator validator;
 
+    // Cadastrar Filme
     public Filme salvarFilme(Filme filme) {
         validator.filmeDuplicado(filme);
         for (int i = 0; i < filme.getExemplares_disponiveis(); i++) {
@@ -42,7 +44,34 @@ public class FilmeService {
 
     }
 
+    // Listar Filmes
     public List<Object[]> listarFilmes() {
         return repository.findFilmesComExemplaresAtivos();
     }
+
+    // Listar Filmes Edit
+    public List<Object[]> listarFilmesEdit() {
+        return repository.findFilmesComDetalhesEExemplaresAtivos();
+    }
+
+    // Exclusão de Filmes
+    public void excluirFilmes(int id){
+        Filme filme = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+
+        repository.delete(filme);
+    }
+
+    // Alterar Status (ativo/inativo) de Filmes
+    @Transactional
+    public void alterarStatusFilmes(int id) {
+        Filme filme = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+
+        filme.setAtivo(!filme.isAtivo());
+
+        repository.save(filme);
+    }
+
+
 }

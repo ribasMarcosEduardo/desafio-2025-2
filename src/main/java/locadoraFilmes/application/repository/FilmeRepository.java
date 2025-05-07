@@ -20,8 +20,27 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
     LEFT JOIN f.exemplares e
     WHERE f.ativo = true
     GROUP BY f.id, f.titulo
+    ORDER BY f.titulo ASC
 """)
     List<Object[]> findFilmesComExemplaresAtivos();
+
+    @Query(value = """
+    SELECT 
+        f.id,
+        f.titulo,
+        f.lancamento,
+        f.pontuacao,
+        f.ativo,
+        COUNT(CASE WHEN e.ativo = true THEN 1 ELSE NULL END) AS exemplares_disponiveis
+    FROM 
+        filme f
+    LEFT JOIN 
+        exemplar e ON e.filme_id = f.id
+    GROUP BY 
+        f.id, f.titulo, f.lancamento, f.pontuacao, f.ativo
+    ORDER BY f.titulo ASC
+    """, nativeQuery = true)
+    List<Object[]> findFilmesComDetalhesEExemplaresAtivos();
 
 
 }
