@@ -11,7 +11,8 @@
 <body>
 
 <div class="div-alert">
-    <div style=" text-align: center; line-height: 50px;" th:if="${Sucesso}" id="success-alert"  class="alert alert-success">
+    <div style=" text-align: center; line-height: 50px;" th:if="${Sucesso}" id="success-alert"
+         class="alert alert-success">
         <p th:text="${Sucesso}"></p>
     </div>
     <div th:if="${FilmeDuplicado}" class="alert alert-danger">
@@ -35,7 +36,8 @@
 
                 <div class="col">
                     <label class="form-label">Exemplares Disponíveis:</label>
-                    <input type="number" name="exemplares_disponiveis" class="form-control" th:field="*{exemplares_disponiveis}">
+                    <input type="number" name="exemplares_disponiveis" class="form-control"
+                           th:field="*{exemplares_disponiveis}">
                 </div>
             </div>
 
@@ -56,7 +58,8 @@
             <div class="row mt-3">
                 <div class="col">
                     <label class="form-label">Lançamento:</label>
-                    <input type="date" name="lancamento" class="form-control" th:value="${filmeDTO.lancamento != null ? filmeDTO.lancamento : ''}" readonly>
+                    <input type="date" name="lancamento" class="form-control"
+                           th:value="${filmeDTO.lancamento != null ? filmeDTO.lancamento : ''}" readonly>
                 </div>
             </div>
 

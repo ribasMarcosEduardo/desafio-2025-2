@@ -2,7 +2,6 @@ package locadoraFilmes.application.model;
 
 
 import jakarta.persistence.*;
-import jdk.jshell.Snippet;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -26,12 +25,9 @@ public class Exemplar {
     @JoinColumn(name = "filme_id", nullable = false)
     private Filme filme;
 
-    @ManyToOne
-    @JoinColumn(name = "locacao_id")
-    private Locacao locacao;
-
     @PrePersist
     private void prePersist() {
+
         this.dataCadastro = LocalDate.now();
     }
 }

@@ -1,6 +1,7 @@
 package locadoraFilmes.application.dto;
 
 import locadoraFilmes.application.model.Filme;
+
 import java.time.LocalDate;
 
 public record FilmeDTO(

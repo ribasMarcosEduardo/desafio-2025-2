@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,13 @@ public class Locacao {
     @Column
     private int id;
 
-    @OneToMany(mappedBy = "locacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Exemplar> exemplares;
+    @ManyToMany
+    @JoinTable(
+            name = "locacao_exemplar",
+            joinColumns = @JoinColumn(name = "locacao_id"),
+            inverseJoinColumns = @JoinColumn(name = "exemplar_id")
+    )
+    private List<Exemplar> exemplares = new ArrayList<>();
 
     @Column(nullable = false, length = 255)
     private String nome;

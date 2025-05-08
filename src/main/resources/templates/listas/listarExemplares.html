@@ -50,12 +50,14 @@
                         <span th:if="${!exemplar.ativo}" class="badge bg-danger">Inativo</span>
                     </td>
                     <td>
-                        <form th:action="@{/exemplar/excluirExemplar/{id}(id=${exemplar.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este exemplar?');">
-                            <input type="hidden" name="tituloFilme" th:value="${tituloFiltrado}" />
+                        <form th:action="@{/exemplar/excluirExemplar/{id}(id=${exemplar.id})}" method="post"
+                              onsubmit="return confirm('Tem certeza que deseja excluir este exemplar?');">
+                            <input type="hidden" name="tituloFilme" th:value="${tituloFiltrado}"/>
                             <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                         </form>
-                        <form th:action="@{/exemplar/alterarStatus/{id}(id=${exemplar.id})}" method="post" onsubmit="return confirm('Tem certeza que deseja alterar o status deste exemplar?');">
-                            <input type="hidden" name="tituloFilme" th:value="${tituloFiltrado}" />
+                        <form th:action="@{/exemplar/alterarStatus/{id}(id=${exemplar.id})}" method="post"
+                              onsubmit="return confirm('Tem certeza que deseja alterar o status deste exemplar?');">
+                            <input type="hidden" name="tituloFilme" th:value="${tituloFiltrado}"/>
                             <button type="submit" class="btn btn-sm btn-warning">Alterar Status</button>
                         </form>
                     </td>
