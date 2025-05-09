@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Nova Locação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .div-borda {
+        .borda-container {
             border: 1px solid #dee2e6;
             border-radius: 0.25rem;
             padding: 1.5rem;
@@ -16,54 +16,56 @@
             text-align: center;
             margin-bottom: 1.5rem;
         }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none;
+        } <!--Tenho q botar isso em um arquivo separado-->
     </style>
 </head>
 <body>
 
+<!--Informações da Locação-->
 <div class="container mt-5">
-    <div class="div-borda">
+    <section class="borda-container">
         <h3 class="titulo">Nova Locação</h3>
 
-        <div th:if="${Sucesso}" class="alert alert-success" role="alert">
-            <span th:text="${Sucesso}"></span>
-        </div>
-        <div th:if="${Erro}" class="alert alert-danger" role="alert">
-            <span th:text="${Erro}"></span>
-        </div>
+        <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
+        <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
 
         <form th:action="@{/locacao/salvarLocacao}" th:object="${locacaoDTO}" method="post">
-
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">Nome do Cliente:</label>
-                    <input type="text" class="form-control" th:field="*{nome}" required>
+                    <label class="form-label" for="nome">Nome do Cliente:</label>
+                    <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">CPF:</label>
-                    <input type="text" class="form-control" th:field="*{cpf}" placeholder="000.000.000-00" required>
+                    <label class="form-label" for="cpf">CPF:</label>
+                    <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="000.000.000-00" required>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">E-mail:</label>
-                    <input type="email" class="form-control" th:field="*{email}" required>
+                    <label class="form-label" for="email">E-mail:</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Telefone:</label>
-                    <input type="tel" class="form-control" th:field="*{telefone}" placeholder="(00) 00000-0000"
-                           required>
+                    <label class="form-label" for="telefone">Telefone:</label>
+                    <input type="tel" class="form-control" id="telefone" th:field="*{telefone}" placeholder="(00) 00000-0000" required>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="form-label">Data de Locação:</label>
-                    <input type="date" class="form-control" th:field="*{dataLocacao}" required>
+                    <label class="form-label" for="dataLocacao">Data de Locação:</label>
+                    <input type="date" class="form-control" id="dataLocacao" th:field="*{dataLocacao}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Data de Devolução Prevista:</label>
-                    <input type="date" class="form-control" th:field="*{dataDevolucao}" required>
+                    <label class="form-label" for="dataDevolucao">Data de Devolução Prevista:</label>
+                    <input type="date" class="form-control" id="dataDevolucao" th:field="*{dataDevolucao}" required>
                 </div>
             </div>
 
@@ -74,11 +76,11 @@
                         <thead>
                         <tr>
                             <th>Título do Filme</th>
+                            <th>ID Exemplar</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilmes">
                         Selecionar Filme
@@ -93,10 +95,10 @@
                 </div>
             </div>
         </form>
-    </div>
+    </section>
 </div>
 
-<!-- Modal de Filmes -->
+<!-- Modal Filmes e Exemplares -->
 <div class="modal fade" id="modalFilmes" tabindex="-1" aria-labelledby="modalFilmesLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -105,102 +107,148 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
-                <div class="table-container">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Título</th>
-                            <th scope="col">Exemplares Disponíveis</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="filme : ${filmes}">
-                            <td th:text="${filme[0]}"></td>
-                            <td th:text="${filme[1]}"></td>
-                            <td th:text="${filme[2]}"></td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-sm btn-success mb-1"
-                                        th:attr="onclick=|selecionarFilme('${filme[1]}')|">
-                                    Selecionar
-                                </button>
-                            </td>
-                        </tr>
-                        <tr th:if="${filmes.isEmpty()}">
-                            <td colspan="4" class="text-center">Nenhum filme com exemplares cadastrado</td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+                <!-- Tabela Filmes -->
+                <div id="tabelaFilmesSection">
+                    <div class="table-container">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Exemplares Disponíveis</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="filme : ${filmes}">
+                                <td th:text="${filme[0]}"></td>
+                                <td th:text="${filme[1]}"></td>
+                                <td th:text="${filme[2]}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-sm"
+                                            th:attr="onclick=|abrirExemplares('${filme[0]}', '${filme[1]}')|"
+                                            aria-label="Selecionar filme">
+                                        Selecionar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr th:if="${filmes.isEmpty()}">
+                                <td colspan="4" class="text-center">Nenhum filme com exemplares cadastrado</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tabela Exemplares -->
+                <div id="tabelaExemplaresSection" class="hidden">
+                    <h5 id="tituloFilmeSelecionado"></h5>
+                    <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="voltarParaFilmes()">Voltar</button>
+                    <div class="table-container">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>ID Exemplar</th>
+                                <th>Data Cadastro</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabelaExemplaresBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/imask"></script> <!--Muder para um js no static-->
 <script>
-    setTimeout(() => {
-        document.querySelectorAll('.alert').forEach(alert => alert.remove());
-    }, 3000);
+    const locacaoState = { filmesSelecionados: [], currentFilme: {} };
 
-    let filmesSelecionados = [];
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
 
-    function selecionarFilme(titulo) {
-        if (filmesSelecionados.length >= 3) {
-            alert("Você só pode selecionar até 3 filmes.");
+    const toggleSections = (showFilmes) => {
+        $("#tabelaFilmesSection").style.display = showFilmes ? "block" : "none";
+        $("#tabelaExemplaresSection").style.display = showFilmes ? "none" : "block";
+        $("#tituloFilmeSelecionado").textContent = showFilmes ? "" : `Exemplares de: ${locacaoState.currentFilme.titulo}`;
+    };
+
+    async function abrirExemplares(id, titulo) {
+        locacaoState.currentFilme = { id, titulo };
+        toggleSections(false);
+
+        const tbody = $("#tabelaExemplaresBody");
+        tbody.innerHTML = "";  // Não exibe "Carregando..." se não quiser
+        try {
+            const res = await fetch(`/locacao/exemplaresPorTitulo?titulo=${encodeURIComponent(titulo)}`);
+            const exemplares = await res.json();
+
+            tbody.innerHTML = exemplares.length
+                ? exemplares.map(e => `
+                    <tr>
+                        <td>${e.id}</td>
+                        <td>${formatDate(e.dataCadastro)}</td>
+                        <td><button class="btn btn-success btn-sm" onclick="selecionarExemplar('${e.id}')">Selecionar</button></td>
+                    </tr>`).join("")
+                : `<tr><td colspan="3" class="text-center">Nenhum exemplar disponível</td></tr>`;
+        } catch {
+            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger">Erro ao carregar exemplares.</td></tr>`;
+        }
+    }
+
+    const formatDate = (d) => {
+        const date = new Date(d);
+        return isNaN(date) ? "N/A" : date.toLocaleDateString("pt-BR");
+    };
+
+    function selecionarExemplar(idExemplar) {
+        const { titulo } = locacaoState.currentFilme;
+
+        if (locacaoState.filmesSelecionados.length >= 3) {
+            alert("Você só pode selecionar até 3 exemplares.");
             return;
         }
 
-        if (filmesSelecionados.includes(titulo)) {
-            alert("Este filme já foi selecionado.");
+        const jaSelecionado = locacaoState.filmesSelecionados.some(f => f.titulo === titulo && f.idExemplar === idExemplar);
+        if (jaSelecionado) {
+            alert("Este exemplar já foi selecionado.");
             return;
         }
 
-        filmesSelecionados.push(titulo);
+        locacaoState.filmesSelecionados.push({ titulo, idExemplar });
         atualizarTabelaFilmes();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('modalFilmes'));
-        modal.hide();
+        bootstrap.Modal.getInstance($("#modalFilmes")).hide();
+        toggleSections(true);
     }
 
-    function removerFilme(titulo) {
-        filmesSelecionados = filmesSelecionados.filter(f => f !== titulo);
+    const atualizarTabelaFilmes = () => {
+        const tbody = $("#tabelaFilmesSelecionados tbody");
+        tbody.innerHTML = locacaoState.filmesSelecionados.map((f, i) => `
+            <tr>
+                <td>${f.titulo}</td>
+                <td>${f.idExemplar}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="removerLinha(${i})">Remover</button></td>
+            </tr>
+            <input type="hidden" name="filmesSelecionados[${i}].titulo" value="${f.titulo}">
+            <input type="hidden" name="filmesSelecionados[${i}].idExemplar" value="${f.idExemplar}">`
+        ).join("");
+    };
+
+    const removerLinha = (index) => {
+        locacaoState.filmesSelecionados.splice(index, 1);
         atualizarTabelaFilmes();
-    }
+    };
 
-    function atualizarTabelaFilmes() {
-        const tbody = document.querySelector("#tabelaFilmesSelecionados tbody");
-        tbody.innerHTML = ""; // limpa tabela
+    const voltarParaFilmes = () => toggleSections(true);
 
-        filmesSelecionados.forEach((titulo, index) => {
-            const row = document.createElement("tr");
-
-            const tituloCell = document.createElement("td");
-            tituloCell.textContent = titulo;
-
-            const acaoCell = document.createElement("td");
-            const btnRemover = document.createElement("button");
-            btnRemover.className = "btn btn-danger btn-sm";
-            btnRemover.textContent = "Remover";
-            btnRemover.onclick = () => removerFilme(titulo);
-
-            acaoCell.appendChild(btnRemover);
-
-            // input hidden para enviar no formulário
-            const inputHidden = document.createElement("input");
-            inputHidden.type = "hidden";
-            inputHidden.name = `filmesSelecionados[${index}]`;
-            inputHidden.value = titulo;
-
-            row.appendChild(tituloCell);
-            row.appendChild(acaoCell);
-            row.appendChild(inputHidden);
-
-            tbody.appendChild(row);
-        });
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+        IMask($("#cpf"), { mask: "000.000.000-00" });
+        IMask($("#telefone"), { mask: "(00) 00000-0000" });
+    });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

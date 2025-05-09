@@ -24,6 +24,16 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
 """)
     List<Object[]> findFilmesComExemplaresAtivos();
 
+    @Query("SELECT f.id, f.titulo, " +
+            "SUM(CASE WHEN e.ativo = true THEN 1 ELSE 0 END) " +
+            "FROM Filme f " +
+            "JOIN f.exemplares e " +
+            "WHERE f.ativo = true " +
+            "GROUP BY f.id, f.titulo, f.lancamento " +
+            "HAVING SUM(CASE WHEN e.ativo = true THEN 1 ELSE 0 END) > 0 " +
+            "ORDER BY f.titulo ASC")
+    List<Object[]> findFilmesAtivosComExemplaresDisponiveis();
+
     @Query(value = """
     SELECT 
         f.id,

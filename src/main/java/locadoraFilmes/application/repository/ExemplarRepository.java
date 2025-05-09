@@ -12,7 +12,15 @@ import java.util.List;
 @Repository
 public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
 
+    List<Exemplar> findByFilmeId(int filmeId); // Vou deixar aq vai que eu use
+
+    List<Exemplar> findByFilmeIdAndAtivoTrue(int filmeId);
+
     @Query("SELECT e FROM Exemplar e JOIN e.filme f WHERE f.titulo LIKE %:titulo%")
     List<Exemplar> findByFilmeTitulo(@Param("titulo") String titulo);
+
+    @Query("SELECT e FROM Exemplar e JOIN e.filme f WHERE f.titulo LIKE %:titulo% AND e.ativo = true")
+    List<Exemplar> findByFilmeTituloAndAtivoTrue(@Param("titulo") String titulo);
+
 
 }

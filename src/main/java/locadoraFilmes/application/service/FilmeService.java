@@ -49,6 +49,11 @@ public class FilmeService {
         return repository.findFilmesComExemplaresAtivos();
     }
 
+    // Listar Filmes Com Exemplares Ativos
+    public List<Object[]> listarFilmesComExemplaresTrue() {
+        return repository.findFilmesAtivosComExemplaresDisponiveis();
+    }
+
     // Listar Filmes Edit
     public List<Object[]> listarFilmesEdit() {
         return repository.findFilmesComDetalhesEExemplaresAtivos();

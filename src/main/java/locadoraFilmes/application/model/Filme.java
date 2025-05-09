@@ -1,5 +1,6 @@
 package locadoraFilmes.application.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,7 +35,8 @@ public class Filme {
     @Column(nullable = false)
     private LocalDate lancamento;
 
-    @OneToMany(mappedBy = "filme", cascade = CascadeType.ALL, orphanRemoval = true)  //lembrar de arrumar esse cascate
+    @OneToMany(mappedBy = "filme", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Exemplar> exemplares = new ArrayList<>();
 
 }

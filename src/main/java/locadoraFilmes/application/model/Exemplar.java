@@ -1,6 +1,7 @@
 package locadoraFilmes.application.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Exemplar {
 
     @ManyToOne
     @JoinColumn(name = "filme_id", nullable = false)
+    @JsonBackReference // Fiquei 3 hrs tentando arrumar um bug q tava sendo causado pela falta de 1 linha KKKK Ficando loko
     private Filme filme;
 
     @PrePersist

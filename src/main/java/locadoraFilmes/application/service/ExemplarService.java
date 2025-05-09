@@ -1,3 +1,4 @@
+
 package locadoraFilmes.application.service;
 
 import locadoraFilmes.application.model.Exemplar;
@@ -17,9 +18,19 @@ public class ExemplarService {
     private final ExemplarRepository repository;
     private final FilmeRepository filmeRepository;
 
-    // Listar Exemplares
+    // Listar Exemplares por título
     public List<Exemplar> listarExemplaresPorTituloFilme(String titulo) {
         return repository.findByFilmeTitulo(titulo);
+    }
+
+    // Listar Exemplares Titulo (apenas ativos) - Vou deixar aq vai q eu use
+    public List<Exemplar> listarExemplaresPorTituloFilmeTrue(String titulo) {
+        return repository.findByFilmeTituloAndAtivoTrue(titulo);
+    }
+
+    // Listar Exemplares por filmeId (apenas ativos)
+    public List<Exemplar> listarExemplaresPorFilmeId(int filmeId) {
+        return repository.findByFilmeIdAndAtivoTrue(filmeId);
     }
 
     // Cadastro de Exemplar - Adicionar validator posteriormente
@@ -34,7 +45,7 @@ public class ExemplarService {
     }
 
     // Exclusão de Exemplares
-    public void excluirExemplar(int id){
+    public void excluirExemplar(int id) {
         Exemplar exemplar = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Exemplar não encontrado"));
 
@@ -52,6 +63,3 @@ public class ExemplarService {
         repository.save(exemplar);
     }
 }
-
-
-
