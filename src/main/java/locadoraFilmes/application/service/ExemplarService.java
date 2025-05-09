@@ -23,14 +23,13 @@ public class ExemplarService {
         return repository.findByFilmeTitulo(titulo);
     }
 
-    // Listar Exemplares Titulo (apenas ativos) - Vou deixar aq vai q eu use
+    // Listar Exemplares Titulo (apenas ativos)
     public List<Exemplar> listarExemplaresPorTituloFilmeTrue(String titulo) {
         return repository.findByFilmeTituloAndAtivoTrue(titulo);
     }
 
-    // Listar Exemplares por filmeId (apenas ativos)
-    public List<Exemplar> listarExemplaresPorFilmeId(int filmeId) {
-        return repository.findByFilmeIdAndAtivoTrue(filmeId);
+    public List<Exemplar> buscarPorIds(List<Integer> ids) {
+        return repository.findAllById(ids);
     }
 
     // Cadastro de Exemplar - Adicionar validator posteriormente

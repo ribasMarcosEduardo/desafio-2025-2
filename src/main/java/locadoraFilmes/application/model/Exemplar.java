@@ -2,10 +2,12 @@ package locadoraFilmes.application.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,12 +26,16 @@ public class Exemplar {
 
     @ManyToOne
     @JoinColumn(name = "filme_id", nullable = false)
-    @JsonBackReference // Fiquei 3 hrs tentando arrumar um bug q tava sendo causado pela falta de 1 linha KKKK Ficando loko
+    @JsonBackReference
     private Filme filme;
+
+    @ManyToMany(mappedBy = "exemplares")
+    @JsonManagedReference
+    private List<Locacao> locacoes;
 
     @PrePersist
     private void prePersist() {
-
         this.dataCadastro = LocalDate.now();
     }
 }
+

@@ -1,7 +1,6 @@
 package locadoraFilmes.application.repository;
 
 import locadoraFilmes.application.model.Exemplar;
-import locadoraFilmes.application.model.Filme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +20,5 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
 
     @Query("SELECT e FROM Exemplar e JOIN e.filme f WHERE f.titulo LIKE %:titulo% AND e.ativo = true")
     List<Exemplar> findByFilmeTituloAndAtivoTrue(@Param("titulo") String titulo);
-
 
 }

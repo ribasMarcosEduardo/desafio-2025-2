@@ -22,12 +22,68 @@
         }
         .hidden {
             display: none;
-        } <!--Tenho q botar isso em um arquivo separado-->
+        } /* Tenho q botar isso em um arquivo separado */
     </style>
 </head>
 <body>
 
-<!--Informações da Locação-->
+<nav class="navbar navbar-expand-lg custom-header">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+                aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Cadastro
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Pessoa</a></li>
+                        <li><a class="dropdown-item" href="#">Endereço</a></li>
+                        <li><a class="dropdown-item" href="#">Curso</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Curso</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Matricular Estudante</a></li>
+                        <li><a class="dropdown-item" href="#">Professor da Oferta</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Matriculados por curso</a></li>
+                        <li><a class="dropdown-item" href="#">Cursos do estudante</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="navbar-text" th:if="${username != null}">
+                        Olá, <span th:text="${username}"></span>!
+                    </span>
+                </button>
+                <ul class="dropdown-menu custom-dropdown">
+                    <li>
+                        <form id="logoutForm" action="/logout" method="POST">
+                            <button class="dropdown-item" type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div class="container mt-5">
     <section class="borda-container">
         <h3 class="titulo">Nova Locação</h3>
@@ -36,6 +92,7 @@
         <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
 
         <form th:action="@{/locacao/salvarLocacao}" th:object="${locacaoDTO}" method="post">
+            <input type="hidden" th:field="*{id}" value="0">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label" for="nome">Nome do Cliente:</label>
@@ -43,7 +100,8 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="cpf">CPF:</label>
-                    <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="000.000.000-00" required>
+                    <input type="text" class="form-control" id="cpf" th:field="*{cpf}" placeholder="000.000.000-00"
+                           required>
                 </div>
             </div>
 
@@ -54,7 +112,8 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="telefone">Telefone:</label>
-                    <input type="tel" class="form-control" id="telefone" th:field="*{telefone}" placeholder="(00) 00000-0000" required>
+                    <input type="tel" class="form-control" id="telefone" th:field="*{telefone}"
+                           placeholder="(00) 00000-0000" required>
                 </div>
             </div>
 
@@ -80,7 +139,8 @@
                             <th>Ação</th>
                         </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                        </tbody>
                     </table>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFilmes">
                         Selecionar Filme
@@ -98,7 +158,6 @@
     </section>
 </div>
 
-<!-- Modal Filmes e Exemplares -->
 <div class="modal fade" id="modalFilmes" tabindex="-1" aria-labelledby="modalFilmesLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -108,7 +167,6 @@
             </div>
             <div class="modal-body">
 
-                <!-- Tabela Filmes -->
                 <div id="tabelaFilmesSection">
                     <div class="table-container">
                         <table class="table table-bordered">
@@ -141,10 +199,10 @@
                     </div>
                 </div>
 
-                <!-- Tabela Exemplares -->
                 <div id="tabelaExemplaresSection" class="hidden">
                     <h5 id="tituloFilmeSelecionado"></h5>
-                    <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="voltarParaFilmes()">Voltar</button>
+                    <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="voltarParaFilmes()">Voltar
+                    </button>
                     <div class="table-container">
                         <table class="table table-bordered">
                             <thead>
@@ -163,7 +221,7 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/imask"></script> <!--Muder para um js no static-->
+<script src="https://unpkg.com/imask"></script>
 <script>
     const locacaoState = { filmesSelecionados: [], currentFilme: {} };
 
@@ -181,7 +239,7 @@
         toggleSections(false);
 
         const tbody = $("#tabelaExemplaresBody");
-        tbody.innerHTML = "";  // Não exibe "Carregando..." se não quiser
+        tbody.innerHTML = "";
         try {
             const res = await fetch(`/locacao/exemplaresPorTitulo?titulo=${encodeURIComponent(titulo)}`);
             const exemplares = await res.json();
@@ -191,28 +249,38 @@
                     <tr>
                         <td>${e.id}</td>
                         <td>${formatDate(e.dataCadastro)}</td>
-                        <td><button class="btn btn-success btn-sm" onclick="selecionarExemplar('${e.id}')">Selecionar</button></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" onclick="selecionarExemplar('${e.id}')">Selecionar</button>
+                        </td>
                     </tr>`).join("")
                 : `<tr><td colspan="3" class="text-center">Nenhum exemplar disponível</td></tr>`;
-        } catch {
+        } catch(error) {
+             console.error("Erro ao carregar exemplares:", error);
             tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger">Erro ao carregar exemplares.</td></tr>`;
         }
     }
 
     const formatDate = (d) => {
+        if (!d) return "N/A";
         const date = new Date(d);
-        return isNaN(date) ? "N/A" : date.toLocaleDateString("pt-BR");
+
+        if (isNaN(date.getTime())) {
+            return "Data inválida";
+        }
+        return date.toLocaleDateString("pt-BR");
     };
 
     function selecionarExemplar(idExemplar) {
         const { titulo } = locacaoState.currentFilme;
+
+        const idExemplarNum = parseInt(idExemplar, 10);
 
         if (locacaoState.filmesSelecionados.length >= 3) {
             alert("Você só pode selecionar até 3 exemplares.");
             return;
         }
 
-        const jaSelecionado = locacaoState.filmesSelecionados.some(f => f.titulo === titulo && f.idExemplar === idExemplar);
+        const jaSelecionado = locacaoState.filmesSelecionados.some(f => parseInt(f.idExemplar, 10) === idExemplarNum);
         if (jaSelecionado) {
             alert("Este exemplar já foi selecionado.");
             return;
@@ -220,7 +288,24 @@
 
         locacaoState.filmesSelecionados.push({ titulo, idExemplar });
         atualizarTabelaFilmes();
-        bootstrap.Modal.getInstance($("#modalFilmes")).hide();
+
+        const modalElement = $("#modalFilmes");
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) {
+            modal.hide();
+        } else {
+
+            $(modalElement).classList.remove('show');
+            $(modalElement).style.display = 'none';
+            $(modalElement).setAttribute('aria-hidden', 'true');
+            $(modalElement).setAttribute('aria-modal', 'false');
+            const body = document.body;
+            body.classList.remove('modal-open');
+            body.style.overflow = '';
+            body.style.paddingRight = '';
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.remove();
+        }
         toggleSections(true);
     }
 
@@ -230,23 +315,32 @@
             <tr>
                 <td>${f.titulo}</td>
                 <td>${f.idExemplar}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="removerLinha(${i})">Remover</button></td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(${i})">Remover</button></td>
             </tr>
-            <input type="hidden" name="filmesSelecionados[${i}].titulo" value="${f.titulo}">
-            <input type="hidden" name="filmesSelecionados[${i}].idExemplar" value="${f.idExemplar}">`
+            <input type="hidden" name="exemplaresSelecionados" value="${f.idExemplar}">
+            `
         ).join("");
     };
 
     const removerLinha = (index) => {
         locacaoState.filmesSelecionados.splice(index, 1);
-        atualizarTabelaFilmes();
+        atualizarTabelaFilmes(); // Re-renderiza a tabela e os inputs hidden
     };
 
     const voltarParaFilmes = () => toggleSections(true);
 
     document.addEventListener("DOMContentLoaded", () => {
+
         IMask($("#cpf"), { mask: "000.000.000-00" });
         IMask($("#telefone"), { mask: "(00) 00000-0000" });
+
+
+        const modalFilmesElement = $("#modalFilmes");
+        modalFilmesElement.addEventListener('hidden.bs.modal', function (event) {
+
+            toggleSections(true);
+
+        });
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

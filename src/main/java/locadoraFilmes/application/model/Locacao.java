@@ -14,10 +14,10 @@ public class Locacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private int id;
 
-    @ManyToMany
+    // Relacionamento Many-to-Many com Exemplar com cascade para garantir a persistência
+    @ManyToMany(cascade = CascadeType.PERSIST)  // Adicionando Cascade para persistência automática
     @JoinTable(
             name = "locacao_exemplar",
             joinColumns = @JoinColumn(name = "locacao_id"),
@@ -46,4 +46,8 @@ public class Locacao {
     @Column
     private LocalDate dataDevolvido;
 
+    @Column(length = 255)
+    private String qrCode;
 }
+
+

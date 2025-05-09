@@ -1,9 +1,10 @@
 package locadoraFilmes.application.dto;
 
-import locadoraFilmes.application.model.Exemplar;
 import locadoraFilmes.application.model.Locacao;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public record LocacaoDTO(
         int id,
@@ -13,10 +14,18 @@ public record LocacaoDTO(
         String telefone,
         LocalDate dataLocacao,
         LocalDate dataDevolucao,
-        LocalDate dataDevolvido
+        LocalDate dataDevolvido,
+        List<Integer> exemplaresSelecionados
+        // String qrCode
 ) {
 
-    public Locacao mapearLocacao(){
+    public LocacaoDTO {
+        if (exemplaresSelecionados == null) {
+            exemplaresSelecionados = new ArrayList<>();
+        }
+    }
+
+    public Locacao mapearLocacao() {
         Locacao locacao = new Locacao();
         locacao.setId(this.id);
         locacao.setNome(this.nome);
@@ -26,7 +35,8 @@ public record LocacaoDTO(
         locacao.setDataLocacao(this.dataLocacao);
         locacao.setDataDevolucao(this.dataDevolucao);
         locacao.setDataDevolvido(this.dataDevolvido);
+       // locacao.setQrCode(this.qrCode);  // Preencher o qrCode
+
         return locacao;
     }
-
 }
