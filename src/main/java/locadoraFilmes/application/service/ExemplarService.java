@@ -33,6 +33,7 @@ public class ExemplarService {
     }
 
     // Cadastro de Exemplar - Adicionar validator posteriormente
+    @Transactional
     public void cadastrarExemplar(String tituloFilme, boolean ativo) {
         Filme filme = filmeRepository.findByTitulo(tituloFilme)
                 .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado: " + tituloFilme));
@@ -41,14 +42,24 @@ public class ExemplarService {
         exemplar.setFilme(filme);
         exemplar.setAtivo(ativo);
         repository.save(exemplar);
+
+        filme.setExemplares_disponiveis(filme.getExemplares_disponiveis() + 1);
+        filmeRepository.save(filme);
     }
 
     // Exclusão de Exemplares
+    @Transactional
     public void excluirExemplar(int id) {
         Exemplar exemplar = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Exemplar não encontrado"));
 
         repository.delete(exemplar);
+
+        Filme filme = exemplar.getFilme();
+        if (filme != null && filme.getExemplares_disponiveis() > 0) {
+            filme.setExemplares_disponiveis(filme.getExemplares_disponiveis() - 1);
+            filmeRepository.save(filme);
+        }
     }
 
     // Alterar status (ativo/inativo) do exemplar

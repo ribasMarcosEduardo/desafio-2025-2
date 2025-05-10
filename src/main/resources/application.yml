@@ -28,3 +28,8 @@ server:
 tmdb:
   api:
     key: d4b57ba1cc4cd9a32d74af1cac3d2054
+
+apgy:
+  qr:
+    api:
+      url: https://api.apgy.in/qr/

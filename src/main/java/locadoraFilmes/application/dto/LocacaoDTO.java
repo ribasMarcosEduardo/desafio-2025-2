@@ -35,7 +35,6 @@ public record LocacaoDTO(
         locacao.setDataLocacao(this.dataLocacao);
         locacao.setDataDevolucao(this.dataDevolucao);
         locacao.setDataDevolvido(this.dataDevolvido);
-       // locacao.setQrCode(this.qrCode);  // Preencher o qrCode
 
         return locacao;
     }
