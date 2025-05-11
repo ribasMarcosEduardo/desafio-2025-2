@@ -13,17 +13,7 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
 
     Optional<Filme> findByTitulo(String titulo);
 
-    @Query("""
-    SELECT f.id, f.titulo,
-           SUM(CASE WHEN e.ativo = true THEN 1 ELSE 0 END)
-    FROM Filme f
-    LEFT JOIN f.exemplares e
-    WHERE f.ativo = true
-    GROUP BY f.id, f.titulo
-    ORDER BY f.titulo ASC
-""")
-    List<Object[]> findFilmesComExemplaresAtivos();
-
+    // Exibição filmes disponíveis
     @Query("SELECT f.id, f.titulo, COUNT(e.id) " +
             "FROM Filme f " +
             "JOIN f.exemplares e " +
@@ -40,21 +30,31 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
     List<Object[]> findFilmesAtivosComExemplaresDisponiveis();
 
     @Query(value = """
-    SELECT 
-        f.id,
-        f.titulo,
-        f.lancamento,
-        f.pontuacao,
-        f.ativo,
-        COUNT(CASE WHEN e.ativo = true THEN 1 ELSE NULL END) AS exemplares_disponiveis
-    FROM 
-        filme f
-    LEFT JOIN 
-        exemplar e ON e.filme_id = f.id
-    GROUP BY 
-        f.id, f.titulo, f.lancamento, f.pontuacao, f.ativo
-    ORDER BY f.titulo ASC
-    """, nativeQuery = true)
+            SELECT
+                f.id,
+                f.titulo,
+                f.lancamento,
+                f.pontuacao,
+                f.ativo,
+                COUNT(e.id) AS exemplares_disponiveis
+            FROM
+                filme f
+            LEFT JOIN
+                exemplar e ON e.filme_id = f.id
+            WHERE
+                e.ativo = TRUE
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM locacao l_sub
+                    JOIN locacao_exemplar le_sub ON l_sub.id = le_sub.locacao_id
+                    WHERE le_sub.exemplar_id = e.id
+                    AND l_sub.data_devolvido IS NULL
+                )
+            GROUP BY
+                f.id, f.titulo, f.lancamento, f.pontuacao, f.ativo
+            ORDER BY
+                f.titulo ASC
+            """, nativeQuery = true)
     List<Object[]> findFilmesComDetalhesEExemplaresAtivos();
 
 

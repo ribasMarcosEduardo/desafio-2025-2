@@ -2,6 +2,7 @@ package locadoraFilmes.application.service;
 
 import locadoraFilmes.application.dto.LocacaoDTO;
 import locadoraFilmes.application.model.Exemplar;
+import locadoraFilmes.application.model.Filme;
 import locadoraFilmes.application.model.Locacao;
 import locadoraFilmes.application.repository.ExemplarRepository;
 import locadoraFilmes.application.repository.LocacaoRepository;
@@ -13,10 +14,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Date;
 
 @RequiredArgsConstructor
 @Service
@@ -28,6 +31,7 @@ public class LocacaoService {
 
     @Value("${apgy.qr.api.url}")
     private String qrApiBaseUrl;
+
 
     @Transactional
     public void salvarLocacao(LocacaoDTO locacaoDTO) {
@@ -51,8 +55,8 @@ public class LocacaoService {
                             "  \"dataLocacao\":\"%s\",\n" +
                             "  \"dataDevolucao\":\"%s\",\n"+"}",
                     locacaoSalva.getId(),
-                    locacaoSalva.getCpf(),
                     locacaoSalva.getNome(),
+                    locacaoSalva.getCpf(),
                     locacaoSalva.getTelefone(),
                     locacaoSalva.getDataLocacao() != null ? locacaoSalva.getDataLocacao().format(formatarData) : null,
                     locacaoSalva.getDataDevolucao() != null ? locacaoSalva.getDataDevolucao().format(formatarData) : null
@@ -88,4 +92,29 @@ public class LocacaoService {
             // Preciso arrumar as mensagens de erro -- Fazer isso durante a fase de organizar o front OUU se der erro
         }
     }
+
+    // Buscar por Termos
+    public List<Locacao> buscarLocacoesPorCpfOuNome(String termo) {
+        return locacaoRepository.findByLocacao(termo);
+    }
+
+    // Devolução
+    @Transactional
+    public void devolucao(int id) {
+        Optional<Locacao> locacaoExistente = locacaoRepository.findById(id);
+
+        if (locacaoExistente.isPresent()){
+            Locacao locacao = locacaoExistente.get();
+            LocalDate dataSistema = LocalDate.now();
+            locacao.setDataDevolvido(dataSistema);
+            locacaoRepository.save(locacao);
+        }
+        else {
+            System.err.println("Erro: Locação com ID " + id + " não encontrada para devolução.");
+        }
+
+
+    }
+
+
 }

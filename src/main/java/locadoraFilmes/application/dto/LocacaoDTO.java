@@ -16,7 +16,6 @@ public record LocacaoDTO(
         LocalDate dataDevolucao,
         LocalDate dataDevolvido,
         List<Integer> exemplaresSelecionados
-        // String qrCode
 ) {
 
     public LocacaoDTO {
@@ -25,7 +24,7 @@ public record LocacaoDTO(
         }
     }
 
-    public Locacao mapearLocacao() {
+public Locacao mapearLocacao() {
         Locacao locacao = new Locacao();
         locacao.setId(this.id);
         locacao.setNome(this.nome);
