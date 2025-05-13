@@ -1,97 +1,76 @@
-/* ------------------ ESTILOS GERAIS DA PÁGINA ------------------ */
-body {
+ .borda-container {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+ }
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f8f9fa;
-}
-
-/* ------------------ ESTILO DO FORMULÁRIO ------------------ */
-.form-container {
-    padding: 5px 10px;
-    background-color: #ffffff;
-    border-radius: 15px;
-    max-width: 600px;
-    width: 100%;
-
-}
-
-/* ------------------ ESTILO DOS CAMPOS DO FORMULÁRIO ------------------ */
-.campo_config {
-    text-transform: uppercase;
-}
-
-/* ------------------ LAYOUT EM LINHAS (FLEXBOX) ------------------ */
-.row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 5px;
-    /*border: 2px solid red;*/
-}
-
-/* ------------------ COLUNAS RESPONSIVAS ------------------ */
-.col {
-    flex; 1
-}
-
-/* --------------------- TESTE CLASSE ---------------------- */
-
-.div-teste{
-    border: 2px solid red;
-
-
-}
-
-
-.div-borda{
-    background-color: #ffffff;
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.titulo{
+ .titulo {
     text-align: center;
-    color: #2c3e50;
+    margin-bottom: 1.5rem;
+ }
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-.div-alert{
-        padding: 1px;
-        position: fixed;
-        top: 110px;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: 15%;
+.hidden {
+    display: none;
 }
 
-.custom-header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-color: #f8f9fa;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    border-radius: 0 0 15px 15px;
-    padding: 17px 15px;
+.div-borda {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
-.custom-dropdown {
-        min-width: 125px;
-    }
+.input-group {
+    max-width: 500px;
+}
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    td{
+.status-header {
+    background-color: #e9ecef;
+    font-weight: bold;
     text-align: center;
-    vertical-align: middle;
 }
-th{
-    text-align: center;
+
+.exemplar-tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+    max-width: 200px;
+    white-space: normal;
+}
+
+.exemplar-icon:hover + .exemplar-tooltip,
+.exemplar-tooltip:hover {
+    display: block;
+}
+
+.table td form {
+    margin: 0;
+}
+
+.table td form button {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+.qr-tooltip {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    padding: 5px;
+    z-index: 1000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }

@@ -43,19 +43,13 @@ public class LocacaoController {
         return exemplares;
     }
 
-    // Cadastrar uma nova Locação:
+    // Cadastrar uma nova Locação
     @PostMapping("/salvarLocacao")
     public String salvarLocacao(@ModelAttribute LocacaoDTO locacaoDTO, RedirectAttributes redirectAttributes) {
         locacaoService.salvarLocacao(locacaoDTO);
         redirectAttributes.addFlashAttribute("Sucesso", "Locação salva com sucesso!");
         return "redirect:/locacao/novaLocacao";
     }
-
-    /* Finalizar uma Locação -- Tela de exibição -- Tenho q alterar o nome depois
-    @GetMapping("/finalizarLocacao")
-    public String finalizarLocacao(Model model) {
-        return "edits/finalizarLocacao"; // http://localhost:8080/locacao/buscar
-    }*/
 
     // Busca
     @GetMapping("/buscar")
@@ -64,7 +58,7 @@ public class LocacaoController {
             Model model) {
         List<Locacao> locacoes = locacaoService.buscarLocacoesPorCpfOuNome(termo);
         model.addAttribute("locacoes", locacoes);
-        return "edits/finalizarLocacao";
+        return "edits/finalizarLocacao"; // http://localhost:8080/locacao/buscar
     }
 
     // Realizar Devolução
@@ -78,5 +72,14 @@ public class LocacaoController {
         return "redirect:/locacao/buscar?termo=" + termo;
     }
 
+    // tela de busca cliente
+    @GetMapping("/buscarTelaCliente")
+public String buscarTelaCliente(
+        @RequestParam(value = "termo", required = false, defaultValue = "") String termo,
+        Model model){
+        List<Locacao> locacoes = locacaoService.buscarLocacoesPorCpf(termo);
+        model.addAttribute("locacoes", locacoes);
+        return "listas/buscarTelaCliente"; // http://localhost:8080/locacao/buscarTelaCliente
+    }
 
 }

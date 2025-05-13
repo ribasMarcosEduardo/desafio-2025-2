@@ -30,11 +30,7 @@ public class ExemplarService {
         return repository.findByFilmeTituloAndAtivoTrue(titulo);
     }
 
-    public List<Exemplar> buscarPorIds(List<Integer> ids) {
-        return repository.findAllById(ids);
-    }
-
-    // Cadastro de Exemplar - Adicionar validator posteriormente
+    // Cadastro de Exemplar
     @Transactional
     public void cadastrarExemplar(String tituloFilme, boolean ativo) {
         Filme filme = filmeRepository.findByTitulo(tituloFilme)

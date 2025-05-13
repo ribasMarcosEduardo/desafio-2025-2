@@ -22,6 +22,12 @@ public interface LocacaoRepository extends JpaRepository<Locacao, Integer> {
             "LOWER(f.titulo) LIKE LOWER(CONCAT('%', :termo, '%')))")
     List<Locacao> findByLocacao(@Param("termo") String termo);
 
+    @Query("SELECT DISTINCT l FROM Locacao l " +
+            "JOIN l.exemplares ex " +
+            "JOIN ex.filme f " +
+            "WHERE (:termo = '' OR " +
+            "LOWER(l.cpf) LIKE LOWER(CONCAT('%', :termo, '%')))")
+    List<Locacao> findByCpf(@Param("termo") String termo);
 }
 
 

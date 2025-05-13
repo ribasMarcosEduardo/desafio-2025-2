@@ -2,7 +2,6 @@ package locadoraFilmes.application.service;
 
 import locadoraFilmes.application.dto.LocacaoDTO;
 import locadoraFilmes.application.model.Exemplar;
-import locadoraFilmes.application.model.Filme;
 import locadoraFilmes.application.model.Locacao;
 import locadoraFilmes.application.repository.ExemplarRepository;
 import locadoraFilmes.application.repository.LocacaoRepository;
@@ -19,7 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-import java.util.Date;
 
 @RequiredArgsConstructor
 @Service
@@ -32,7 +30,7 @@ public class LocacaoService {
     @Value("${apgy.qr.api.url}")
     private String qrApiBaseUrl;
 
-
+    // Salva a locação e faz o Qr
     @Transactional
     public void salvarLocacao(LocacaoDTO locacaoDTO) {
         Locacao locacao = locacaoDTO.mapearLocacao();
@@ -62,30 +60,25 @@ public class LocacaoService {
                     locacaoSalva.getDataDevolucao() != null ? locacaoSalva.getDataDevolucao().format(formatarData) : null
             );
 
-            String data = jsonGambiarra; // Conteúdo do QR
+            String data = jsonGambiarra;
+            int size = 250;
 
-            int size = 250; // Tamano do QR
-
-            // Construir a URI antes do WebClient -- Deu problema isso antes (Eu n sabia)
             URI qrApiUri = UriComponentsBuilder.fromUriString(qrApiBaseUrl)
                     .queryParam("data", data)
                     .queryParam("size", size)
                     .build()
                     .toUri();
-            // ------------------------------------------------------------------
 
             WebClient webClient = webClientBuilder.baseUrl(qrApiBaseUrl).build();
 
             byte[] imageBytes = webClient.get()
-                    .uri(qrApiUri) // Passa o objeto URI já construído
+                    .uri(qrApiUri)
                     .retrieve()
                     .bodyToMono(byte[].class)
                     .block();
 
             String imagem = Base64.getEncoder().encodeToString(imageBytes);
-
             locacaoSalva.setQrCode(imagem);
-
             locacaoRepository.save(locacaoSalva);
 
         } catch (Exception e) {
@@ -93,9 +86,18 @@ public class LocacaoService {
         }
     }
 
-    // Buscar por Termos
+    // Buscar por Termos -- Creio q eu possa usar isso na visualização do usuário
     public List<Locacao> buscarLocacoesPorCpfOuNome(String termo) {
         return locacaoRepository.findByLocacao(termo);
+    }
+
+    // Buscar por cpf
+    public List<Locacao> buscarLocacoesPorCpf(String termo) {
+        if (termo == null || termo.isEmpty()) {
+            return List.of();
+        }
+        String cpfSemMascara = termo.replaceAll("[.-]", "");
+        return locacaoRepository.findByCpf(cpfSemMascara);
     }
 
     // Devolução
@@ -103,13 +105,12 @@ public class LocacaoService {
     public void devolucao(int id) {
         Optional<Locacao> locacaoExistente = locacaoRepository.findById(id);
 
-        if (locacaoExistente.isPresent()){
+        if (locacaoExistente.isPresent()) {
             Locacao locacao = locacaoExistente.get();
             LocalDate dataSistema = LocalDate.now();
             locacao.setDataDevolvido(dataSistema);
             locacaoRepository.save(locacao);
-        }
-        else {
+        } else {
             System.err.println("Erro: Locação com ID " + id + " não encontrada para devolução.");
         }
 
