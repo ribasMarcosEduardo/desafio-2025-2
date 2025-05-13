@@ -8,9 +8,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(FilmeDuplicado.class)
-    public String handleFilmeDuplicado(FilmeDuplicado e, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        redirectAttributes.addFlashAttribute("FilmeDuplicado", e.getMessage());
+    @ExceptionHandler(MensagemPadrao.class)
+    public String handleMensagemPadrao(MensagemPadrao e, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        redirectAttributes.addFlashAttribute("MensagemPadrao", e.getMessage());
         return getRedirectUrl(request);
     }
 

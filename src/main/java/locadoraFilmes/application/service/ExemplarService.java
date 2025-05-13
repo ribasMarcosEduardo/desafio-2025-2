@@ -5,6 +5,7 @@ import locadoraFilmes.application.model.Exemplar;
 import locadoraFilmes.application.model.Filme;
 import locadoraFilmes.application.repository.ExemplarRepository;
 import locadoraFilmes.application.repository.FilmeRepository;
+import locadoraFilmes.application.validator.FilmeLocadoraValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ public class ExemplarService {
 
     private final ExemplarRepository repository;
     private final FilmeRepository filmeRepository;
+    private final FilmeLocadoraValidator validator;
 
     // Listar Exemplares por título
     public List<Exemplar> listarExemplaresPorTituloFilme(String titulo) {
@@ -52,7 +54,7 @@ public class ExemplarService {
     public void excluirExemplar(int id) {
         Exemplar exemplar = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Exemplar não encontrado"));
-
+        validator.exemplarAssociado(id);
         repository.delete(exemplar);
 
         Filme filme = exemplar.getFilme();
@@ -68,6 +70,9 @@ public class ExemplarService {
         Exemplar exemplar = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Exemplar não encontrado"));
 
+        if(exemplar.isAtivo()){
+            validator.exemplarAssociado(id);
+        }
         exemplar.setAtivo(!exemplar.isAtivo());
 
         repository.save(exemplar);

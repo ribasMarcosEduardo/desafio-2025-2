@@ -61,7 +61,7 @@ public class ExemplarController {
     @PostMapping("/alterarStatus/{id}")
     public String alterarStatus(@PathVariable int id, @RequestParam(required = false) String tituloFilme, RedirectAttributes redirectAttributes) {
         exemplarService.alterarStatus(id);
-        redirectAttributes.addFlashAttribute("Sucesso", "Exemplar excluído com sucesso!"); // Tenho q ajustar essa mensagem no front
+        redirectAttributes.addFlashAttribute("Sucesso", "Exemplar alterado com sucesso!"); // Tenho q ajustar essa mensagem no front
         return "redirect:/exemplar/listarExemplares?tituloFilme=" + tituloFilme;
     }
 

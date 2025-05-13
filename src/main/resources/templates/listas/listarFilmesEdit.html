@@ -22,9 +22,8 @@
 
 <div class="container mt-5">
     <div class="div-borda">
-        <div th:if="${Sucesso}" class="alert alert-success" role="alert">
-            <span th:text="${Sucesso}"></span>
-        </div>
+        <div th:if="${Sucesso}" class="alert alert-success" role="alert"><span th:text="${Sucesso}"></span></div>
+        <div th:if="${MensagemPadrao}" class="alert alert-danger"  role="alert"><span th:text="${MensagemPadrao}"></span></div>
         <div th:if="${Erro}" class="alert alert-danger" role="alert">
             <span th:text="${Erro}"></span>
         </div>

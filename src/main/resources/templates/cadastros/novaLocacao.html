@@ -182,7 +182,7 @@
                             <tr th:each="filme : ${filmes}">
                                 <td th:text="${filme[0]}"></td>
                                 <td th:text="${filme[1]}"></td>
-                                <td th:text="${filme[2]}"></td>
+                                <td th:text="${filme[5]}"></td>
                                 <td>
                                     <button type="button" class="btn btn-success btn-sm"
                                             th:attr="onclick=|abrirExemplares('${filme[0]}', '${filme[1]}')|"

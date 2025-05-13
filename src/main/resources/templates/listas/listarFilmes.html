@@ -20,12 +20,14 @@
 </head>
 <body>
 
+
 <div class="container mt-5">
     <div class="div-borda">
         <h3 style="text-align: center;">Controle de Filmes e Exemplares</h3>
         <button id="refreshFilmes" class="btn" style="background: none; font-size: 25px;">↻</button>
 
         <div class="table-container">
+
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -39,7 +41,7 @@
                 <tr th:each="filme : ${filmes}">
                     <td th:text="${filme[0]}"></td>
                     <td th:text="${filme[1]}"></td>
-                    <td th:text="${filme[2]}"></td>
+                    <td th:text="${filme[5]}"></td>
                     <td>
                         <a th:href="@{/exemplar/listarExemplares(tituloFilme=${filme[1]})}"
                            class="btn btn-primary">Visualizar exemplares</a>

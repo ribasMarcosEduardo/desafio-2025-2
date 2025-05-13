@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
@@ -25,5 +26,10 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
             ")")
     List<Exemplar> findByFilmeTituloAndAtivoTrue(@Param("titulo") String titulo);
 
+    @Query("SELECT e.id FROM Exemplar e JOIN e.locacoes l WHERE e.id = :exemplarId AND l.dataDevolvido IS NULL")
+    Optional<Integer> findExemplarIdIfInActiveLocacao(@Param("exemplarId") int exemplarId);
+
+    @Query("SELECT COUNT(e) FROM Exemplar e WHERE e.filme.id = :filmeId AND e.ativo = TRUE")
+    int countActiveExemplaresByFilmeId(@Param("filmeId") int filmeId);
 
 }

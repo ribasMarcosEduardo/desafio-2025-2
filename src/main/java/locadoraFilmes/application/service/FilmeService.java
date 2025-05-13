@@ -1,12 +1,10 @@
 package locadoraFilmes.application.service;
 
 import locadoraFilmes.application.dto.ExemplarDTO;
-import locadoraFilmes.application.exeption.FilmeDuplicado;
 import locadoraFilmes.application.model.Exemplar;
 import locadoraFilmes.application.model.Filme;
-import locadoraFilmes.application.repository.ExemplarRepository;
 import locadoraFilmes.application.repository.FilmeRepository;
-import locadoraFilmes.application.validator.FilmeValidator;
+import locadoraFilmes.application.validator.FilmeLocadoraValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,7 @@ import java.util.List;
 public class FilmeService {
 
     private final FilmeRepository repository;
-    private final FilmeValidator validator;
+    private final FilmeLocadoraValidator validator;
 
     // Cadastrar Filme
     public Filme salvarFilme(Filme filme) {
@@ -46,24 +44,24 @@ public class FilmeService {
 
     // Listar Filmes
     public List<Object[]> listarFilmes() {
-        return repository.findFilmesAtivosComExemplaresDisponiveis();
+        return repository.findFilmesComDetalhesEContagemDeExemplaresDisponiveis();
     }
 
     // Listar Filmes Com Exemplares Ativos -- modal
     public List<Object[]> listarFilmesComExemplaresTrue() {
-        return repository.findFilmesAtivosComExemplaresDisponiveis();
+        return repository.findFilmesComDetalhesEExemplaresAtivos();
     }
 
     // Listar Filmes Edit
     public List<Object[]> listarFilmesEdit() {
-        return repository.findFilmesComDetalhesEExemplaresAtivos();
+        return repository.findFilmesComDetalhesEContagemDeExemplaresDisponiveis();
     }
 
     // Exclusão de Filmes
     public void excluirFilmes(int id){
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
-
+        validator.validarExclusao(id);
         repository.delete(filme);
     }
 
