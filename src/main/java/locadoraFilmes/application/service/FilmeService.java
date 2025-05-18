@@ -3,7 +3,10 @@ package locadoraFilmes.application.service;
 import locadoraFilmes.application.dto.ExemplarDTO;
 import locadoraFilmes.application.model.Exemplar;
 import locadoraFilmes.application.model.Filme;
+import locadoraFilmes.application.model.Locacao;
+import locadoraFilmes.application.repository.ExemplarRepository;
 import locadoraFilmes.application.repository.FilmeRepository;
+import locadoraFilmes.application.repository.LocacaoRepository;
 import locadoraFilmes.application.validator.FilmeLocadoraValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ public class FilmeService {
 
     private final FilmeRepository repository;
     private final FilmeLocadoraValidator validator;
+    private final LocacaoRepository locacaoRepository;
+    private final ExemplarRepository exemplarRepository;
 
     // Cadastrar Filme
     public Filme salvarFilme(Filme filme) {
@@ -60,9 +65,25 @@ public class FilmeService {
     // Exclusão de Filmes
     @Transactional
     public void excluirFilmes(int id) {
+
+        validator.validarExclusao(id);
+
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
-        validator.validarExclusao(id);
+
+        List<Exemplar> exemplares = exemplarRepository.findByFilme(filme);
+
+        for (Exemplar exemplar : exemplares) {
+
+            List<Locacao> locacoes = locacaoRepository.findByExemplaresContains(exemplar);
+            for (Locacao locacao : locacoes) {
+                locacao.getExemplares().remove(exemplar);
+                locacaoRepository.save(locacao);
+            }
+
+            exemplarRepository.delete(exemplar);
+        }
+
         repository.delete(filme);
     }
 

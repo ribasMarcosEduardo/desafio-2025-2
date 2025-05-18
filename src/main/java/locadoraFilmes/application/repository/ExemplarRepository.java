@@ -1,6 +1,7 @@
 package locadoraFilmes.application.repository;
 
 import locadoraFilmes.application.model.Exemplar;
+import locadoraFilmes.application.model.Filme;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -39,11 +40,13 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
     @Query("SELECT COUNT(e) FROM Exemplar e WHERE e.filme.id = :filmeId AND e.ativo = TRUE")
     int countActiveExemplaresByFilmeId(@Param("filmeId") int filmeId);
 
-    @Query("SELECT COUNT(e) FROM Exemplar e JOIN e.filme f JOIN e.locacoes l WHERE l.dataDevolvido IS NOT NULL AND f.id = :filmeId")
+    @Query("SELECT COUNT(e) FROM Exemplar e JOIN e.filme f JOIN e.locacoes l WHERE l.dataDevolvido IS NULL AND f.id = :filmeId")
     int countExemplaresDevolvidosByFilmeId(@Param("filmeId") int filmeId);
 
     @Query("SELECT e, COUNT(l) FROM Exemplar e LEFT JOIN e.locacoes l JOIN e.filme f WHERE f.titulo = :tituloFilme GROUP BY e")
     List<Object[]> findExemplarsWithRentalCountByFilmeTitulo(@Param("tituloFilme") String tituloFilme);
+
+    List<Exemplar> findByFilme(Filme filme);
 
 
 }

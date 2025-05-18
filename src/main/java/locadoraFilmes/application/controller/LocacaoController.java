@@ -104,7 +104,7 @@ public class LocacaoController {
             Model model) {
         List<Locacao> locacoes = locacaoService.buscarLocacoesPorCpf(termo);
         model.addAttribute("locacoes", locacoes);
-        return "listas/buscarTelaCliente"; // http://localhost:8080/locacao/buscarTelaCliente
+        return "listas/buscarTelaCliente";
     }
 
 }
