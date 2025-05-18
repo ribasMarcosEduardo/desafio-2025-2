@@ -16,7 +16,7 @@ public class Locacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(
             name = "locacao_exemplar",
             joinColumns = @JoinColumn(name = "locacao_id"),

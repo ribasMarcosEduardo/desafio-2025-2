@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +56,28 @@ public class LocacaoController {
     @GetMapping("/buscar")
     public String buscar(
             @RequestParam(value = "termo", required = false, defaultValue = "") String termo,
+            @RequestParam(value = "filtro", required = false, defaultValue = "todos") String filtro,
             Model model) {
-        List<Locacao> locacoes = locacaoService.buscarLocacoesPorCpfOuNome(termo);
+        List<Locacao> locacoes;
+        if (termo != null) {
+            switch (filtro.toLowerCase()) {
+                case "pendentes":
+                    locacoes = locacaoService.buscarLocacoesPendentes(termo);
+                    break;
+                case "devolvidos":
+                    locacoes = locacaoService.buscarLocacoesDevolvidas(termo);
+                    break;
+                case "todos":
+                default:
+                    locacoes = locacaoService.buscarTodasLocacoes(termo);
+                    break;
+            }
+        } else {
+            locacoes = new ArrayList<>();
+        }
         model.addAttribute("locacoes", locacoes);
+        model.addAttribute("param.termo", termo);
+        model.addAttribute("filtroSelecionado", filtro);
         return "edits/finalizarLocacao"; // http://localhost:8080/locacao/buscar
     }
 
@@ -69,7 +89,12 @@ public class LocacaoController {
             RedirectAttributes redirectAttributes) {
         locacaoService.devolucao(id);
         redirectAttributes.addFlashAttribute("Sucesso", "Devolução Concluída!");
-        return "redirect:/locacao/buscar?termo=" + termo;
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromPath("/locacao/buscar");
+
+        uriBuilder.queryParam("termo", termo);
+
+        return "redirect:" + uriBuilder.build().encode().toUriString();
     }
 
     // tela de busca cliente

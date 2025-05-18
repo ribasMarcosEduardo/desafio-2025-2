@@ -54,7 +54,7 @@ public class FilmeController {
     @PostMapping("/excluirFilmes/{id}")
     public String excluirFilmes(@PathVariable int id, RedirectAttributes redirectAttributes) {
         filmeService.excluirFilmes(id);
-        redirectAttributes.addFlashAttribute("Sucesso", "Filme excluído com sucesso!"); // Tenho q ajustar essa mensagem no front
+        redirectAttributes.addFlashAttribute("Sucesso", "Filme excluído com sucesso!"); 
         return "redirect:/filme/listarFilmesEdit";
     }
 

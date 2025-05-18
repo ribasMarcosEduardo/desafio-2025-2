@@ -21,4 +21,5 @@ public record ExemplarDTO(
         return exemplar;
     }
 
+
 }

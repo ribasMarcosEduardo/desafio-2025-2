@@ -26,10 +26,21 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
             ")")
     List<Exemplar> findByFilmeTituloAndAtivoTrue(@Param("titulo") String titulo);
 
+    @Query("SELECT DISTINCT e FROM Exemplar e " +
+            "JOIN e.filme f " +
+            "JOIN e.locacoes l " +
+            "WHERE f.titulo LIKE %:titulo% " +
+            "AND l.dataDevolvido IS NULL")
+    List<Exemplar> findByFilmeTituloAndLocacao(@Param("titulo") String titulo);
+
     @Query("SELECT e.id FROM Exemplar e JOIN e.locacoes l WHERE e.id = :exemplarId AND l.dataDevolvido IS NULL")
     Optional<Integer> findExemplarIdIfInActiveLocacao(@Param("exemplarId") int exemplarId);
 
     @Query("SELECT COUNT(e) FROM Exemplar e WHERE e.filme.id = :filmeId AND e.ativo = TRUE")
     int countActiveExemplaresByFilmeId(@Param("filmeId") int filmeId);
+
+    @Query("SELECT COUNT(e) FROM Exemplar e JOIN e.filme f JOIN e.locacoes l WHERE l.dataDevolvido IS NOT NULL AND f.id = :filmeId")
+    int countExemplaresDevolvidosByFilmeId(@Param("filmeId") int filmeId);
+
 
 }

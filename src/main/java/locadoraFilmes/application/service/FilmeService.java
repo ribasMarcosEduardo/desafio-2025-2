@@ -52,12 +52,13 @@ public class FilmeService {
         return repository.findFilmesComDetalhesEExemplaresAtivos();
     }
 
-    // Listar Filmes Edit
+    // Listar Filmes Edit -----------------
     public List<Object[]> listarFilmesEdit() {
-        return repository.findFilmesComDetalhesEContagemDeExemplaresDisponiveis();
+        return repository.findFilmesTelaEdit();
     }
 
     // Exclusão de Filmes
+    @Transactional
     public void excluirFilmes(int id){
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
@@ -70,7 +71,7 @@ public class FilmeService {
     public void alterarStatusFilmes(int id) {
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
-
+        validator.validarAlteraFilmeStatus(id);
         filme.setAtivo(!filme.isAtivo());
 
         repository.save(filme);

@@ -87,8 +87,16 @@ public class LocacaoService {
     }
 
     // Buscar por Termos -- Creio q eu possa usar isso na visualização do usuário
-    public List<Locacao> buscarLocacoesPorCpfOuNome(String termo) {
+    public List<Locacao> buscarTodasLocacoes(String termo) {
         return locacaoRepository.findByLocacao(termo);
+    }
+
+    public List<Locacao> buscarLocacoesPendentes(String termo) {
+        return locacaoRepository.findByLocacaoPendentes(termo);
+    }
+
+    public List<Locacao> buscarLocacoesDevolvidas(String termo) {
+        return locacaoRepository.findByLocacaoDevolvidas(termo);
     }
 
     // Buscar por cpf

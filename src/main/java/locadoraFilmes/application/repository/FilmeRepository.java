@@ -58,7 +58,6 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
             """, nativeQuery = true)
     List<Object[]> findFilmesComDetalhesEExemplaresAtivos();
 
-    // Lista de edição de filmes
     @Query(value = """
             SELECT
                 f.id,
@@ -88,5 +87,34 @@ public interface FilmeRepository extends JpaRepository<Filme, Integer> {
                 f.titulo ASC
             """, nativeQuery = true)
     List<Object[]> findFilmesComDetalhesEContagemDeExemplaresDisponiveis();
+
+    @Query(value = """
+            SELECT
+                f.id,
+                f.titulo,
+                f.lancamento,
+                f.pontuacao,
+                f.ativo,
+                COUNT(CASE
+                          WHEN e.ativo = TRUE AND NOT EXISTS (
+                              SELECT 1
+                              FROM locacao l_sub
+                              JOIN locacao_exemplar le_sub ON l_sub.id = le_sub.locacao_id
+                              WHERE le_sub.exemplar_id = e.id
+                              AND l_sub.data_devolvido IS NULL
+                          ) THEN e.id
+                          ELSE NULL
+                      END) AS exemplares_disponiveis
+            FROM
+                filme f
+            LEFT JOIN
+                exemplar e ON e.filme_id = f.id           
+            GROUP BY
+                f.id, f.titulo, f.lancamento, f.pontuacao, f.ativo
+            ORDER BY
+                f.titulo ASC
+            """, nativeQuery = true)
+    List<Object[]> findFilmesTelaEdit();
+
 
 }
