@@ -53,7 +53,7 @@ public class ExemplarService {
         filmeRepository.save(filme);
     }
 
-    // Exclusão de Exemplares
+    // Exclusão de Exemplaress
     @Transactional
     public void excluirExemplar(int id) {
         Exemplar exemplar = repository.findById(id)
