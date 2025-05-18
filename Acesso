@@ -1,7 +1,0 @@
-Passos para acessar a aplicação:
-
-1. Baixe o arquivo do projeto (código-fonte e/ou script SQL conforme fornecido).
-2. Abra o MySQL Workbench e execute os seguintes comandos para criar e selecionar o banco de dados:
-
-CREATE DATABASE locadoraFilmes;
-USE locadoraFilmes;
