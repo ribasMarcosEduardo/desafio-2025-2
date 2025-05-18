@@ -99,9 +99,9 @@ public class LocacaoController {
 
     // tela de busca cliente
     @GetMapping("/buscarTelaCliente")
-public String buscarTelaCliente(
-        @RequestParam(value = "termo", required = false, defaultValue = "") String termo,
-        Model model){
+    public String buscarTelaCliente(
+            @RequestParam(value = "termo", required = false, defaultValue = "") String termo,
+            Model model) {
         List<Locacao> locacoes = locacaoService.buscarLocacoesPorCpf(termo);
         model.addAttribute("locacoes", locacoes);
         return "listas/buscarTelaCliente"; // http://localhost:8080/locacao/buscarTelaCliente

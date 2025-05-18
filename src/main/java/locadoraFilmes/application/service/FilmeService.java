@@ -59,7 +59,7 @@ public class FilmeService {
 
     // Exclusão de Filmes
     @Transactional
-    public void excluirFilmes(int id){
+    public void excluirFilmes(int id) {
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
         validator.validarExclusao(id);
@@ -72,6 +72,7 @@ public class FilmeService {
         Filme filme = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Filme não encontrado"));
         validator.validarAlteraFilmeStatus(id);
+        validator.validarExemplaresAtivos(id);
         filme.setAtivo(!filme.isAtivo());
 
         repository.save(filme);

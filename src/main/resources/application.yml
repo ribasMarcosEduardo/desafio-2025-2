@@ -33,3 +33,7 @@ apgy:
   qr:
     api:
       url: https://api.apgy.in/qr/
+
+logging:
+  level:
+    org.springframework.security: DEBUG

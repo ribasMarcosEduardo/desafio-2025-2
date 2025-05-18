@@ -63,4 +63,17 @@ public class FilmeLocadoraValidator {
         }
     }
 
+    // Validar Filmes ativos durante a alteração de status
+    public void validarExemplaresAtivos(int filmeId) {
+        int totalExemplaresAtivos = exemplarRepository.countActiveExemplaresByFilmeId(filmeId);
+
+        if (totalExemplaresAtivos > 0) {
+            throw new MensagemPadrao(
+                    "Não é possível alterar o status do filme. Existem " + totalExemplaresAtivos +
+                            " exemplar(es) ativo(s) associado(s) a este filme. " +
+                            "Por favor, inative todos os exemplares ativos antes de prosseguir com a alteração do status do filme."
+            );
+        }
+    }
+
 }

@@ -42,5 +42,8 @@ public interface ExemplarRepository extends JpaRepository<Exemplar, Integer> {
     @Query("SELECT COUNT(e) FROM Exemplar e JOIN e.filme f JOIN e.locacoes l WHERE l.dataDevolvido IS NOT NULL AND f.id = :filmeId")
     int countExemplaresDevolvidosByFilmeId(@Param("filmeId") int filmeId);
 
+    @Query("SELECT e, COUNT(l) FROM Exemplar e LEFT JOIN e.locacoes l JOIN e.filme f WHERE f.titulo = :tituloFilme GROUP BY e")
+    List<Object[]> findExemplarsWithRentalCountByFilmeTitulo(@Param("tituloFilme") String tituloFilme);
+
 
 }

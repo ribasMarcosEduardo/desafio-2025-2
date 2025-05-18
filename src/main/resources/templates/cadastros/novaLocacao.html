@@ -7,6 +7,7 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/padrao.css">
     <title>Nova Locação</title>
+    <script src="https://unpkg.com/imask"></script>
 </head>
 <body>
 
@@ -22,30 +23,29 @@
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost:8080/filme/cadastroFilme">Cadastrar
-                            Filmes</a></li>
-                        <li><a class="dropdown-item" href="http://localhost:8080/filme/listarFilmes">Filme e
-                            exemplares</a></li>
+                        <li><a class="dropdown-item" th:href="@{/filme/cadastroFilme}">Cadastrar Filmes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/filme/listarFilmes}">Filme e exemplares</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Locação</button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost:8080/locacao/novaLocacao">Nova Locação</a>
-                        </li>
-                        <li><a class="dropdown-item" href="http://localhost:8080/locacao/buscar">Finalizar
-                            Locação</a></li>
+                        <li><a class="dropdown-item" th:href="@{/locacao/novaLocacao}">Nova Locação</a></li>
+                        <li><a class="dropdown-item" th:href="@{/locacao/buscar}">Finalizar Locação</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
                     </button>
                     <ul class="dropdown-menu">
-                        <li><span class="dropdown-item"></span></li>
-                        <li><span class="dropdown-item"></span></li>
+                        <li><a class="dropdown-item" th:href="@{/geral/buscarContagemAlugueis}">Contagem de Aluguéis por Filme</a></li>
+                        <li><span class="dropdown-item">Em breve...</span></li>
                     </ul>
                 </li>
             </ul>
+            <form th:action="@{/logout}" method="post" class="ms-auto">
+                <button type="submit" class="btn btn-outline-light">Sair</button>
+            </form>
         </div>
     </div>
 </nav>
@@ -187,133 +187,7 @@
         </div>
     </div>
 </div>
-<!--Teste de QR
-<div class="qrcode-container">
-    <img src="data:image/png;base64,codigo" aq">
-</div>-->
-
-
-<script src="https://unpkg.com/imask"></script>
-<script>
-    const locacaoState = { filmesSelecionados: [], currentFilme: {} };
-
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
-
-    const toggleSections = (showFilmes) => {
-        $("#tabelaFilmesSection").style.display = showFilmes ? "block" : "none";
-        $("#tabelaExemplaresSection").style.display = showFilmes ? "none" : "block";
-        $("#tituloFilmeSelecionado").textContent = showFilmes ? "" : `Exemplares de: ${locacaoState.currentFilme.titulo}`;
-    };
-
-    async function abrirExemplares(id, titulo) {
-        locacaoState.currentFilme = { id, titulo };
-        toggleSections(false);
-
-        const tbody = $("#tabelaExemplaresBody");
-        tbody.innerHTML = "";
-        try {
-            const res = await fetch(`/locacao/exemplaresPorTitulo?titulo=${encodeURIComponent(titulo)}`);
-            const exemplares = await res.json();
-
-            tbody.innerHTML = exemplares.length
-                ? exemplares.map(e => `
-                    <tr>
-                        <td>${e.id}</td>
-                        <td>${formatDate(e.dataCadastro)}</td>
-                        <td>
-                            <button class="btn btn-success btn-sm" onclick="selecionarExemplar('${e.id}')">Selecionar</button>
-                        </td>
-                    </tr>`).join("")
-                : `<tr><td colspan="3" class="text-center">Nenhum exemplar disponível</td></tr>`;
-        } catch(error) {
-             console.error("Erro ao carregar exemplares:", error);
-            tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger">Erro ao carregar exemplares.</td></tr>`;
-        }
-    }
-
-    const formatDate = (d) => {
-        if (!d) return "N/A";
-        const date = new Date(d);
-
-        if (isNaN(date.getTime())) {
-            return "Data inválida";
-        }
-        return date.toLocaleDateString("pt-BR");
-    };
-
-    function selecionarExemplar(idExemplar) {
-        const { titulo } = locacaoState.currentFilme;
-
-        const idExemplarNum = parseInt(idExemplar, 10);
-
-        if (locacaoState.filmesSelecionados.length >= 3) {
-            alert("Você só pode selecionar até 3 exemplares.");
-            return;
-        }
-
-        const jaSelecionado = locacaoState.filmesSelecionados.some(f => parseInt(f.idExemplar, 10) === idExemplarNum);
-        if (jaSelecionado) {
-            alert("Este exemplar já foi selecionado.");
-            return;
-        }
-
-        locacaoState.filmesSelecionados.push({ titulo, idExemplar });
-        atualizarTabelaFilmes();
-
-        const modalElement = $("#modalFilmes");
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        if (modal) {
-            modal.hide();
-        } else {
-
-            $(modalElement).classList.remove('show');
-            $(modalElement).style.display = 'none';
-            $(modalElement).setAttribute('aria-hidden', 'true');
-            $(modalElement).setAttribute('aria-modal', 'false');
-            const body = document.body;
-            body.classList.remove('modal-open');
-            body.style.overflow = '';
-            body.style.paddingRight = '';
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) backdrop.remove();
-        }
-        toggleSections(true);
-    }
-
-    const atualizarTabelaFilmes = () => {
-        const tbody = $("#tabelaFilmesSelecionados tbody");
-        tbody.innerHTML = locacaoState.filmesSelecionados.map((f, i) => `
-            <tr>
-                <td>${f.titulo}</td>
-                <td>${f.idExemplar}</td>
-                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerLinha(${i})">Remover</button></td>
-            </tr>
-            <input type="hidden" name="exemplaresSelecionados" value="${f.idExemplar}">
-            `
-        ).join("");
-    };
-
-    const removerLinha = (index) => {
-        locacaoState.filmesSelecionados.splice(index, 1);
-        atualizarTabelaFilmes(); // Re-renderiza a tabela e os inputs hidden
-    };
-
-    const voltarParaFilmes = () => toggleSections(true);
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-        IMask($("#cpf"), { mask: "000.000.000-00" });
-        IMask($("#telefone"), { mask: "(00) 00000-0000" });
-
-        const modalFilmesElement = $("#modalFilmes");
-        modalFilmesElement.addEventListener('hidden.bs.modal', function (event) {
-
-            toggleSections(true);
-
-        });
-    });
-</script>
+<script src="/js/nova-locacao-script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

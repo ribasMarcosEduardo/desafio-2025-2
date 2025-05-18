@@ -10,7 +10,6 @@
 </head>
 <body>
 
-
 <nav class="navbar navbar-expand-lg custom-header">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
@@ -23,35 +22,34 @@
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost:8080/filme/cadastroFilme">Cadastrar
-                            Filmes</a></li>
-                        <li><a class="dropdown-item" href="http://localhost:8080/filme/listarFilmes">Filme e
-                            exemplares</a></li>
+                        <li><a class="dropdown-item" th:href="@{/filme/cadastroFilme}">Cadastrar Filmes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/filme/listarFilmes}">Filme e exemplares</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Locação</button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost:8080/locacao/novaLocacao">Nova Locação</a>
-                        </li>
-                        <li><a class="dropdown-item" href="http://localhost:8080/locacao/buscar">Finalizar
-                            Locação</a></li>
+                        <li><a class="dropdown-item" th:href="@{/locacao/novaLocacao}">Nova Locação</a></li>
+                        <li><a class="dropdown-item" th:href="@{/locacao/buscar}">Finalizar Locação</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
                     </button>
                     <ul class="dropdown-menu">
-                        <li><span class="dropdown-item"></span></li>
-                        <li><span class="dropdown-item"></span></li>
+                        <li><a class="dropdown-item" th:href="@{/geral/buscarContagemAlugueis}">Contagem de Aluguéis por Filme</a></li>
+                        <li><span class="dropdown-item">Em breve...</span></li>
                     </ul>
                 </li>
             </ul>
+            <form th:action="@{/logout}" method="post" class="ms-auto">
+                <button type="submit" class="btn btn-outline-light">Sair</button>
+            </form>
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container mt-5 ">
     <div class="borda-container">
         <h3 style="text-align: center; margin-bottom: 1.5rem;">Cadastro de Filme:</h3>
 

@@ -47,14 +47,14 @@ public class FilmeController {
     @GetMapping("/listarFilmesEdit")
     public String listarFilmesEdit(Model model) {
         model.addAttribute("filmes", filmeService.listarFilmesEdit());
-        return "listas/listarFilmesEdit"; // http://localhost:8080/filme/listarFilmesEdit
+        return "edits/listarFilmesEdit"; // http://localhost:8080/filme/listarFilmesEdit
     }
 
     // Excluir Filmes -- Botão
     @PostMapping("/excluirFilmes/{id}")
     public String excluirFilmes(@PathVariable int id, RedirectAttributes redirectAttributes) {
         filmeService.excluirFilmes(id);
-        redirectAttributes.addFlashAttribute("Sucesso", "Filme excluído com sucesso!"); 
+        redirectAttributes.addFlashAttribute("Sucesso", "Filme excluído com sucesso!");
         return "redirect:/filme/listarFilmesEdit";
     }
 

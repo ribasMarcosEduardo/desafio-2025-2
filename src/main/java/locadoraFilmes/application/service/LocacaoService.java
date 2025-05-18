@@ -51,7 +51,7 @@ public class LocacaoService {
                             "  \"cpf\":\"%s\",\n" +
                             "  \"telefone\":\"%s\",\n" +
                             "  \"dataLocacao\":\"%s\",\n" +
-                            "  \"dataDevolucao\":\"%s\",\n"+"}",
+                            "  \"dataDevolucao\":\"%s\",\n" + "}",
                     locacaoSalva.getId(),
                     locacaoSalva.getNome(),
                     locacaoSalva.getCpf(),
@@ -106,6 +106,15 @@ public class LocacaoService {
         }
         String cpfSemMascara = termo.replaceAll("[.-]", "");
         return locacaoRepository.findByCpf(cpfSemMascara);
+    }
+
+    // Buscar por titulo do filme
+    public List<Object[]> buscarContagemAlugueisPorTituloFilme(String tituloFilme) {
+
+        if (tituloFilme == null || tituloFilme.isEmpty()) {
+            return List.of();
+        }
+        return exemplarRepository.findExemplarsWithRentalCountByFilmeTitulo(tituloFilme);
     }
 
     // Devolução

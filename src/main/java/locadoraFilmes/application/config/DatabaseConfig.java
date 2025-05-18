@@ -10,16 +10,16 @@ import javax.sql.DataSource;
 public class DatabaseConfig {
 
     @Value("${spring.datasource.url}")
-    String  url;
+    String url;
     @Value("${spring.datasource.username}")
-    String  username;
+    String username;
     @Value("${spring.datasource.password}")
-    String  password;
+    String password;
     @Value("${spring.datasource.driver-class-name}")
-    String  driver;
+    String driver;
 
     @Bean
-    public DataSource hikariDataSource(){
+    public DataSource hikariDataSource() {
 
         HikariConfig config = new HikariConfig();
         config.setUsername(username);
@@ -27,12 +27,12 @@ public class DatabaseConfig {
         config.setDriverClassName(driver);
         config.setJdbcUrl(url);
 
-        config.setMaximumPoolSize(10);              // Máximo de conexão ao mesmo tempo
-        config.setMinimumIdle(1);                   // Mínomo/tamanho inicial
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(1);
         config.setPoolName("teste");
-        config.setIdleTimeout(600000);               // 10 minutos
-        config.setConnectionTimeout(100000);         // 10 segundos       // Tempo para tomar time out
-        config.setConnectionTestQuery("select 1");  // Para testar se o banco está funcionando - query de teste
+        config.setIdleTimeout(600000);
+        config.setConnectionTimeout(100000);
+        config.setConnectionTestQuery("select 1");
 
         return new HikariDataSource(config);
     }
